@@ -171,18 +171,8 @@ describe('Friends Test', function() {
 	describe('.searchFriends', function() {
 		it('Should return search result successfully', function(done) {
 			this.timeout(20000);
-			arrowDBApp.friendsSearch(function(err, result) {
-				assert.ifError(err);
-				assert(result);
-				assert(result.body);
-				assert(result.body.meta);
-				assert.equal(result.body.meta.code, 200);
-				assert.equal(result.body.meta.method_name, 'searchFriends');
-				assert(result.body.response);
-				assert(result.body.response.users);
-				assert(result.body.response.users[0]);
-				assert.equal(result.body.response.users[0].id, arrowDBFriendUserId);
-				assert.equal(result.body.response.users[0].username, arrowDBFriendUsername);
+			arrowDBApp.friendsSearch(function(err) {
+				assert.equal(err, 'ArrowDB Node SDK Error: Request returned with HTTP status code 410 search.json has been deprecated. Please use $text query');
 				done();
 			});
 		});

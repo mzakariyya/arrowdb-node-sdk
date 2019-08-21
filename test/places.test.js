@@ -192,15 +192,8 @@ describe('Places Test', function() {
 		it('Search should return all places', function(done) {
 			arrowDBApp.placesSearch({
 				user_id: arrowDBUserId
-			}, function(err, result) {
-				assert.ifError(err);
-				assert(result);
-				assert(result.body);
-				assert(result.body.meta);
-				assert.equal(result.body.meta.code, 200);
-				assert.equal(result.body.meta.method_name, 'searchPlaces');
-				assert(result.body.response);
-				assert(result.body.response.places);
+			}, function(err) {
+				assert.equal(err, 'ArrowDB Node SDK Error: Request returned with HTTP status code 410 search.json has been deprecated. Please use $text query');
 				done();
 			});
 		});

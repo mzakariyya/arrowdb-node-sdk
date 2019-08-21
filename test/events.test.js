@@ -189,24 +189,15 @@ describe('Events Test', function() {
 		});
 
 		it('Should search events successfully', function(done) {
-			arrowDBApp.eventsSearch({}, function(err, result) {
-				assert.ifError(err);
-				assert(result.body);
-				assert(result.body.meta);
-				assert.equal(result.body.meta.code, 200);
-				assert(result.body.response);
-				assert(result.body.response.events);
+			arrowDBApp.eventsSearch({}, function(err) {
+				assert.equal(err, 'ArrowDB Node SDK Error: Request returned with HTTP status code 410 search.json has been deprecated. Please use $text query');
 				done();
 			});
 		});
 
 		it('Should search event occurrences successfully', function(done) {
-			arrowDBApp.eventsSearchOccurrences({}, function(err, result) {
-				assert.ifError(err);
-				assert(result.body);
-				assert(result.body.meta);
-				assert.equal(result.body.meta.code, 200);
-				assert.equal(result.body.meta.method_name, 'searchEventOccurrences');
+			arrowDBApp.eventsSearchOccurrences({}, function(err) {
+				assert.equal(err, 'ArrowDB Node SDK Error: Request returned with HTTP status code 410 search.json has been deprecated. Please use $text query');
 				done();
 			});
 		});

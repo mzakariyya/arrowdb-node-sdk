@@ -3,6 +3,8 @@ var assert = require('assert'),
 
 var arrowDBEntryPoint = (process.env.ARROWDB_ENTRYPOINT ? process.env.ARROWDB_ENTRYPOINT : 'https://api.cloud.appcelerator.com');
 var arrowDBKey = process.env.ARROWDB_APPKEY;
+var arrowDBAdmin = process.env.ARROWDB_USERNAME || 'admin';
+var arrowDBAdminPassword = process.env.ARROWDB_PASSWORD || 'cocoafish';
 if (!arrowDBKey) {
 	console.error('Please create an ArrowDB app and assign ARROWDB_APPKEY in environment vars.');
 	process.exit(1);
@@ -22,8 +24,8 @@ describe('Geo Fence Test', function() {
 	describe('login admin user', function() {
 		it('Should login an admin user successfully', function(done) {
 			arrowDBApp.usersLogin({
-				login: 'admin',
-				password: 'cocoafish'
+				login: arrowDBAdmin,
+				password: arrowDBAdminPassword
 			}, function(err, result) {
 				assert.ifError(err);
 				assert(result.body);
