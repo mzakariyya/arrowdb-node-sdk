@@ -41,7 +41,8 @@
     "url": "https://github.com/appcelerator/arrowdb-node-sdk"
   },
   "scripts": {
-    "test": "grunt"
+    "test": "nyc mocha test/**/*.js",
+    "lint": "grunt"
   },
   "dependencies": {
     "debug": "^2.1.1",
@@ -55,8 +56,8 @@
     "grunt-cli": "^1.3.2",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-jshint": "^0.12.0",
-    "grunt-kahvesi": "^0.1.0",
-    "grunt-mocha-test": "^0.12.7",
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1",
     "should": "^4.1.0"
   },
   "license": "Apache-2.0",
