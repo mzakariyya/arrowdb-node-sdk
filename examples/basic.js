@@ -10,12 +10,8 @@ console.log('Creating ArrowDB app instance...'.cyan);
 var arrowDBApp = new ArrowDB(process.env.ARROWDB_APPKEY);
 console.log('Created: '.cyan + '%j', arrowDBApp);
 
-var arrowDBObjectList = arrowDBApp.getDBObjects();
-console.log('Get all supported objects: arrowDBApp.getDBObjects()'.cyan);
-console.log(arrowDBObjectList);
-
 console.log('User logging in...'.cyan);
-arrowDBApp.usersLogin({
+arrowDBApp.userLogin({
 	login: 'paul',
 	password: 'cocoafish'
 }, function(err, result) {
@@ -24,20 +20,18 @@ arrowDBApp.usersLogin({
 		return;
 	}
 	console.log('User login request finished: '.cyan + '%j', result.body);
-	console.log('Counting users via generic way arrowDBApp.get() instead of arrowDBApp.usersCount()...'.cyan);
-	arrowDBApp.get('/v1/users/count.json', function(err, result) {
-		if (err) {
-			console.error(err);
-			return;
-		}
-		console.log('User count finished: '.cyan + '%j', result.body);
-		console.log('Showing current user through stored user session...'.cyan);
-		arrowDBApp.usersShowMe(function(err, result) {
-			if (err) {
-				console.error(err);
-				return;
-			}
-			console.log('User showMe request finished: '.cyan + '%j', result.body);
-		});
-	});
 });
+
+// console.log('User creating...'.cyan);
+// arrowDBApp.userCreate({
+// 		'[{_login': 'paul1',
+// 		'_password': 'cocoafish1}]'
+// }, function(err, result) {
+// 	if (err) {
+// 		console.error(err);
+// 		return;
+// 	}
+// 	console.log('User create request finished: '.cyan + '%j', result.body);
+// });
+
+

@@ -1,7 +1,7 @@
 var assert = require('assert'),
 	testUtil = require('./testUtil');
 
-var arrowDBEntryPoint = (process.env.ARROWDB_ENTRYPOINT ? process.env.ARROWDB_ENTRYPOINT : 'https://api.cloud.appcelerator.com');
+var arrowDBEntryPoint = (process.env.ARROWDB_ENTRYPOINT ? process.env.ARROWDB_ENTRYPOINT : 'http://localhost:8080');
 var arrowDBKey = process.env.ARROWDB_APPKEY;
 if (!arrowDBKey) {
 	console.error('Please create an ArrowDB app and assign ARROWDB_APPKEY in environment vars.');
@@ -34,42 +34,6 @@ describe('Users Test', function() {
 			testUtil.generateUsername(function(username) {
 				arrowDBUsernameManualSession = username;
 				console.log('\tGenerated arrowdb user for manual session tests: %s', arrowDBUsernameManualSession);
-				done();
-			});
-		});
-	});
-
-	describe('.queryAndCountUsers', function() {
-		it('Should return all users', function(done) {
-			this.timeout(20000);
-			arrowDBApp.usersQuery({
-				limit: 100
-			}, function(err, result) {
-				assert.ifError(err);
-				assert(result);
-				assert(result.body);
-				assert(result.body.meta);
-				assert.equal(result.body.meta.code, 200);
-				assert.equal(result.body.meta.method_name, 'queryUsers');
-				assert(result.body.response);
-				assert(result.body.response.users);
-				assert(result.body.response.users.length >= 0);
-				assert(result.body.response.users.length <= 100);
-				done();
-			});
-		});
-
-		it('Should count user corrently', function(done) {
-			this.timeout(20000);
-			arrowDBApp.usersCount(function(err, result) {
-				assert.ifError(err);
-				assert(result.body);
-				assert(result.body.meta);
-				assert.equal(result.body.meta.code, 200);
-				// A bug of https://jira.appcelerator.org/browse/CLOUDSRV-4022
-				// assert.equal(result.body.meta.method_name, 'countUser');
-				assert.equal(result.body.meta.method_name, 'usersCount');
-				assert(result.body.meta.count || (result.body.meta.count === 0));
 				done();
 			});
 		});
@@ -181,7 +145,7 @@ describe('Users Test', function() {
 
 		it('Should update user successfully with custom_fields as a string via rest call', function(done) {
 			this.timeout(20000);
-			arrowDBApp.put('/v1/users/update.json', {
+			arrowDBApp.put('/v2/user/update.json', {
 				custom_fields: '{"test":true}'
 			}, function(err, result) {
 				assert.ifError(err);
