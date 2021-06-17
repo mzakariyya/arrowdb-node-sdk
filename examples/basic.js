@@ -15,7 +15,8 @@ console.log('Created: '.cyan + '%j', arrowDBApp);
 console.log('User creating...'.cyan);
 arrowDBApp.userCreate({
 		'_login': 'paul',
-		'_password': 'cocoafish'
+		'_password': 'cocoafish',
+		//'_admin_': true,
 }, function(err, result) {
 	if (err) {
 		console.error(err);
@@ -32,9 +33,7 @@ arrowDBApp.userCreate({
 	return;
 	}
 	console.log('User login request finished: '.cyan + '%j', result.body);
-	});
-
-	
+	});	
 });
 
 
