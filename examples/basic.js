@@ -19,8 +19,6 @@ console.log('Created: '.cyan + '%j', arrowDBApp);
 arrowDBApp.sessionCookieString = '70197033f58ccbb704556773308d3b68';
 arrowDBApp2.sessionCookieString = '70197033f58ccbb704556773308d3b68';
 
-
-
 console.log('User creating...'.cyan);
 arrowDBApp.userCreate({
 		'_login': 'paul2',
@@ -32,7 +30,7 @@ arrowDBApp.userCreate({
 		return;
 	}
 	console.log('User create request finished: '.cyan + '%j', resultCreate.body);
-	console.log('User logging in...'.cyan);
+	console.log('User logging in using SDK method...'.cyan);
 	var obj = JSON.parse(JSON.stringify(resultCreate.body));
 	userID = obj.response.data[0]._id;
 
@@ -44,18 +42,14 @@ arrowDBApp.userCreate({
 			console.error(err);
 			return;
 		}
-		console.log('User login request finished: '.cyan + '%j', resultLogin.body);
-		 arrowDBApp2.get('/v2/user/login?login=paul2&password=cocoafish2', {
-			req: {
-				headers: {
-					cookie: 'arrowDBSessionID=70197033f58ccbb704556773308d3b68'
-				}
-			} ,
-		},function(err, result) {
+		console.log('User login request using SDK method finished: '.cyan + '%j', resultLogin.body);
+		console.log('User logging in using REST API method: '.cyan);
+		arrowDBApp2.get('/v2/user/login?login=paul2&password=cocoafish2', {},function(err, result) {
 			if (err) {
 				console.error(err);
 				return;
 			}	
+			console.log('User login request using REST API method finished: '.cyan + '%j', resultLogin.body);
 			console.log('ArrowDB returned body: %j', result.body);
 			console.log('Cookie string returned: %s', result.cookieString);
 
