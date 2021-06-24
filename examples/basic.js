@@ -44,14 +44,13 @@ arrowDBApp.userCreate({
 		}
 		console.log('User login request using SDK method finished: '.cyan + '%j', resultLogin.body);
 		console.log('User logging in using REST API method: '.cyan);
-		arrowDBApp2.get('/v2/user/login?login=paul2&password=cocoafish2', {},function(err, result) {
+		arrowDBApp2.get('/v2/user/login?login=paul2&password=cocoafish2', {},function(err, resultLoginREST) {
 			if (err) {
 				console.error(err);
 				return;
 			}	
-			console.log('User login request using REST API method finished: '.cyan + '%j', resultLogin.body);
-			console.log('ArrowDB returned body: %j', result.body);
-			console.log('Cookie string returned: %s', result.cookieString);
+			console.log('User login request using REST API method finished: '.cyan + '%j', resultLoginREST.body);
+			console.log('Cookie string returned: %s', resultLoginREST.cookieString);
 
 			arrowDBApp.userDelete({
 				'user_id': userID
