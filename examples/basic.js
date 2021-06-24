@@ -66,8 +66,3 @@ arrowDBApp.userCreate({
 	});	
  });
 
-
-
-
-// arrowDBApp2.sessionCookieString = '70197033f58ccbb704556773308d3b68';
-
