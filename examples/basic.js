@@ -17,18 +17,20 @@ console.log('Created: '.cyan + '%j', arrowDBApp);
     autoSessionManagement: false
 });
 arrowDBApp.sessionCookieString = '70197033f58ccbb704556773308d3b68';
+arrowDBApp.dashboardSession = 's:rqlW-yHeGcPKvwfnYMA8p7zNQa1P54Dq.ZSoPWB8wLLTJykBqPLFpXHc3mlD7GwXq15javmXiSBs';
 arrowDBApp2.sessionCookieString = '70197033f58ccbb704556773308d3b68';
 
 console.log('User creating...'.cyan);
 arrowDBApp.userCreate({
 		'_login': 'paul2',
 		'_password': 'cocoafish2',
-		//'_admin_': true,
+		'_admin_': true,
 }, function(err, resultCreate) {
 	if (err) {
 		console.error(err);
 		return;
 	}
+	console.log("arrowDBApp", arrowDBApp)
 	console.log('User create request finished: '.cyan + '%j', resultCreate.body);
 	console.log('User logging in using SDK method...'.cyan);
 	var obj = JSON.parse(JSON.stringify(resultCreate.body));
@@ -51,7 +53,8 @@ arrowDBApp.userCreate({
 			}	
 			console.log('User login request using REST API method finished: '.cyan + '%j', resultLoginREST.body);
 			console.log('Cookie string returned: %s', resultLoginREST.cookieString);
-
+			console.log("user id is ", userID);
+			arrowDBApp.dashboardSession = 's:rqlW-yHeGcPKvwfnYMA8p7zNQa1P54Dq.ZSoPWB8wLLTJykBqPLFpXHc3mlD7GwXq15javmXiSBs';
 			arrowDBApp.userDelete({
 				'user_id': userID
 			}, function(err, resultDelete) {
