@@ -85,14 +85,14 @@ describe('Users Test', function() {
 			}, function(err, result) {
 				console.log("result 1", result)
 				assert.ifError(err);
-				// assert(result.body);
-				// assert(result.body.meta);
-				// assert.equal(result.body.meta.code, 200);
-				// assert.equal(result.body.meta.method_name, 'queryUsers');
-				// assert(result.body.response);
-				// assert(result.body.response.users);
-				// assert(result.body.response.users[0]);
-				// assert.equal(result.body.response.users[0].username, arrowDBUsername);
+				assert(result.body);
+				assert(result.body.meta);
+				assert.equal(result.body.meta.code, 200);
+				assert.equal(result.body.meta.method_name, 'queryUsers');
+				assert(result.body.response);
+				assert(result.body.response.users);
+				assert(result.body.response.users[0]);
+				assert.equal(result.body.response.users[0].username, arrowDBUsername);
 				done();
 			});
 		});
@@ -105,7 +105,6 @@ describe('Users Test', function() {
 				login: arrowDBUsername,
 				password: arrowDBPassword
 			}, function(err, result) {
-				//console.log("result 1", result)
 				assert.ifError(err);
 				assert(result.body);
 				 assert.equal(result.body.status, 200);
