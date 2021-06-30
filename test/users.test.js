@@ -58,21 +58,6 @@ describe('Users Test', function() {
 				done();
 			});
 		});
-
-		it('Should count user corrently', function(done) {
-			this.timeout(20000);
-			arrowDBApp.usersCount(function(err, result) {
-				assert.ifError(err);
-				assert(result.body);
-				assert(result.body.meta);
-				assert.equal(result.body.meta.code, 200);
-				// A bug of https://jira.appcelerator.org/browse/CLOUDSRV-4022
-				// assert.equal(result.body.meta.method_name, 'countUser');
-				assert.equal(result.body.meta.method_name, 'usersCount');
-				assert(result.body.meta.count || (result.body.meta.count === 0));
-				done();
-			});
-		});
 	});
 
 	describe('.createUser', function() {
