@@ -91,26 +91,26 @@ describe('Users Test', function() {
 			});
 		});
 	
-		// it('Should query user correctly', function(done) {
-		// 	this.timeout(20000);
-		// 	arrowDBApp.userQuery({
-		// 		where: {
-		// 			'_id': arrowDBUsername
-		// 		}
-		// 	}, function(err, result) {
-		// 		console.log("result 1", result)
-		// 		assert.ifError(err);
-		// 		// assert(result.body);
-		// 		// assert(result.body.meta);
-		// 		// assert.equal(result.body.meta.code, 200);
-		// 		// assert.equal(result.body.meta.method_name, 'queryUsers');
-		// 		// assert(result.body.response);
-		// 		// assert(result.body.response.users);
-		// 		// assert(result.body.response.users[0]);
-		// 		// assert.equal(result.body.response.users[0].username, arrowDBUsername);
-		// 		done();
-		// 	});
-		// });
+		it('Should query user correctly', function(done) {
+			this.timeout(20000);
+			arrowDBApp.userQuery({
+				where: {
+					'_id': arrowDBUsername
+				}
+			}, function(err, result) {
+				console.log("result 1", result)
+				assert.ifError(err);
+				// assert(result.body);
+				// assert(result.body.meta);
+				// assert.equal(result.body.meta.code, 200);
+				// assert.equal(result.body.meta.method_name, 'queryUsers');
+				// assert(result.body.response);
+				// assert(result.body.response.users);
+				// assert(result.body.response.users[0]);
+				// assert.equal(result.body.response.users[0].username, arrowDBUsername);
+				done();
+			});
+		});
 	});
 	
 	describe('.loginUser', function() {
@@ -250,51 +250,10 @@ describe('Users Test', function() {
 			});
 		});
 
-		it('Should create a keyvalue successfully', function(done) {
-			this.timeout(20000);
-			arrowDBAppManualSession.keyValuesSet({
-				name: 'foo',
-				value: 'bar'
-			}, function(err, result) {
-				assert.ifError(err);
-				assert(result.body);
-				assert(result.body.meta);
-				assert.equal(result.body.meta.code, 200);
-				assert.equal(result.body.meta.method_name, 'setKeyvalue');
-				done();
-			});
-		});
-
-		it('Should delete a keyvalue successfully', function(done) {
-			this.timeout(20000);
-			arrowDBAppManualSession.keyValuesDelete({
-				name: 'foo'
-			}, function(err, result) {
-				assert.ifError(err);
-				assert(result.body);
-				assert(result.body.meta);
-				assert.equal(result.body.meta.code, 200);
-				assert.equal(result.body.meta.method_name, 'deleteKeyvalue');
-				done();
-			});
-		});
-
 		it('Should nullify session', function(done) {
 			this.timeout(20000);
 			arrowDBAppManualSession.sessionCookieString = null;
 			done();
-		});
-
-		it('Should fail to create a keyvalue', function(done) {
-			this.timeout(20000);
-			arrowDBAppManualSession.keyValuesSet({
-				name: 'foo',
-				value: 'bar'
-			}, function(err) {
-				assert(err);
-				assert.equal(err.statusCode, 400);
-				done();
-			});
 		});
 
 		it('Should delete current user successfully', function(done) {
