@@ -10,15 +10,30 @@ var userID = '';
 
 console.log('Creating ArrowDB app instance...'.cyan);
 var arrowDBApp = new ArrowDB(process.env.ARROWDB_APPKEY, {
-    autoSessionManagement: false
+	autoSessionManagement: false,
+	baasVersion: 'v1'
 });
 console.log('Created: '.cyan + '%j', arrowDBApp);
  var arrowDBApp2 = new ArrowDB(process.env.ARROWDB_APPKEY, {
-    autoSessionManagement: false
+	autoSessionManagement: false,
+	baasVersion: 'v1'
 });
+
+
+
 arrowDBApp.sessionCookieString = '70197033f58ccbb704556773308d3b68';
 arrowDBApp.dashboardSession = 's:rqlW-yHeGcPKvwfnYMA8p7zNQa1P54Dq.ZSoPWB8wLLTJykBqPLFpXHc3mlD7GwXq15javmXiSBs';
 arrowDBApp2.sessionCookieString = '70197033f58ccbb704556773308d3b68';
+
+// var arrowDBObjectList = arrowDBApp.getDBObjectsV1();
+// console.log('Get all supported objects: arrowDBApp.getDBObjectsV1 ()'.cyan);
+// console.log(arrowDBObjectList);
+
+// var arrowDBObjectList = arrowDBApp.getDBObjectsV2();
+// console.log('Get all supported objects: arrowDBApp.getDBObjectsV2 ()'.cyan);
+// console.log(arrowDBObjectList);
+
+
 
 console.log('User creating...'.cyan);
 arrowDBApp.userCreate({
