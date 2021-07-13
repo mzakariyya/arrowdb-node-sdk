@@ -13,16 +13,17 @@ var arrowDBApp = new ArrowDB(process.env.ARROWDB_APPKEY, {
 	autoSessionManagement: false,
 	baasVersion: 'v2'
 });
+
 console.log('Created: '.cyan + '%j', arrowDBApp);
 
-arrowDBApp.sessionCookieString = '70197033f58ccbb704556773308d3b68';
+arrowDBApp.sessionCookieString = '372de6fe98278b9b807a5ace39e3dc8f';
 arrowDBApp.dashboardSession = 's:rqlW-yHeGcPKvwfnYMA8p7zNQa1P54Dq.ZSoPWB8wLLTJykBqPLFpXHc3mlD7GwXq15javmXiSBs';
 
 //var arrowDBObjectList = arrowDBApp.getDBObjects();
 //console.log(arrowDBObjectList);
 
 console.log('User creating...'.cyan);
-arrowDBApp.userCreate({
+arrowDBApp.user({
 		'_login': 'paul2',
 		'_password': 'cocoafish2',
 		'_admin_': true,
@@ -53,7 +54,7 @@ arrowDBApp.userCreate({
 		}
 		console.log('User login request using SDK method finished: '.cyan + '%j', resultLogin.body);
 		console.log('User logging in using REST API method: '.cyan);
-		arrowDBApp.get('/v2/user/login?login=paul2&password=cocoafish2', 
+		arrowDBApp.get('/v2/user/login', 
 		{
 			req: {
 				headers: {
@@ -69,16 +70,16 @@ arrowDBApp.userCreate({
 			console.log('User login request using REST API method finished: '.cyan + '%j', resultLoginREST.body);
 			console.log('Cookie string returned: %s', resultLoginREST.cookieString);
 			console.log("user id is ", userID);
-			arrowDBApp.dashboardSession = 's:rqlW-yHeGcPKvwfnYMA8p7zNQa1P54Dq.ZSoPWB8wLLTJykBqPLFpXHc3mlD7GwXq15javmXiSBs';
-			arrowDBApp.userDelete({
-				'user_id': userID
-			}, function(err, resultDelete) {
-				if (err) {
-					console.error(err);
-					return;
-				}
-				console.log('User delete request finished: '.cyan + '%j', resultDelete.body);
-			});	
+			// arrowDBApp.dashboardSession = 's:rqlW-yHeGcPKvwfnYMA8p7zNQa1P54Dq.ZSoPWB8wLLTJykBqPLFpXHc3mlD7GwXq15javmXiSBs';
+			// arrowDBApp.userDelete({
+			// 	'user_id': userID
+			// }, function(err, resultDelete) {
+			// 	if (err) {
+			// 		console.error(err);
+			// 		return;
+			// 	}
+			// 	console.log('User delete request finished: '.cyan + '%j', resultDelete.body);
+			// });	
 		});
 	});	
  });
