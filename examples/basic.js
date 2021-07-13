@@ -23,7 +23,7 @@ arrowDBApp.dashboardSession = 's:rqlW-yHeGcPKvwfnYMA8p7zNQa1P54Dq.ZSoPWB8wLLTJyk
 //console.log(arrowDBObjectList);
 
 console.log('User creating...'.cyan);
-arrowDBApp.user({
+arrowDBApp.userCreate({
 		'_login': 'paul2',
 		'_password': 'cocoafish2',
 		'_admin_': true,
@@ -70,16 +70,16 @@ arrowDBApp.user({
 			console.log('User login request using REST API method finished: '.cyan + '%j', resultLoginREST.body);
 			console.log('Cookie string returned: %s', resultLoginREST.cookieString);
 			console.log("user id is ", userID);
-			// arrowDBApp.dashboardSession = 's:rqlW-yHeGcPKvwfnYMA8p7zNQa1P54Dq.ZSoPWB8wLLTJykBqPLFpXHc3mlD7GwXq15javmXiSBs';
-			// arrowDBApp.userDelete({
-			// 	'user_id': userID
-			// }, function(err, resultDelete) {
-			// 	if (err) {
-			// 		console.error(err);
-			// 		return;
-			// 	}
-			// 	console.log('User delete request finished: '.cyan + '%j', resultDelete.body);
-			// });	
+			arrowDBApp.dashboardSession = 's:rqlW-yHeGcPKvwfnYMA8p7zNQa1P54Dq.ZSoPWB8wLLTJykBqPLFpXHc3mlD7GwXq15javmXiSBs';
+			arrowDBApp.userDelete({
+				'user_id': userID
+			}, function(err, resultDelete) {
+				if (err) {
+					console.error(err);
+					return;
+				}
+				console.log('User delete request finished: '.cyan + '%j', resultDelete.body);
+			});	
 		});
 	});	
  });
