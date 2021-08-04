@@ -46,7 +46,9 @@
   },
   "dependencies": {
     "debug": "^2.1.1",
+    "got": "^11.8.2",
     "lodash": "^4.17.15",
+    "promise": "^8.1.0",
     "request": "^2.55.0",
     "tough-cookie": "^2.3.0"
   },

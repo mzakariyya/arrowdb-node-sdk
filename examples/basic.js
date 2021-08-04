@@ -5,19 +5,19 @@ if (!process.env.ARROWDB_APPKEY) {
 }
 
 var ArrowDB = require('../lib/arrowdb');
-
 var userID = '';
+console.log("here ..... 1")
 
 console.log('Creating ArrowDB app instance...'.cyan);
 var arrowDBApp = new ArrowDB(process.env.ARROWDB_APPKEY, {
 	autoSessionManagement: false,
 	baasVersion: 'v2'
-});
+}); 
 
 console.log('Created: '.cyan + '%j', arrowDBApp);
 
 arrowDBApp.sessionCookieString = '372de6fe98278b9b807a5ace39e3dc8f';
-arrowDBApp.dashboardSession = 's:rqlW-yHeGcPKvwfnYMA8p7zNQa1P54Dq.ZSoPWB8wLLTJykBqPLFpXHc3mlD7GwXq15javmXiSBs';
+arrowDBApp.dashboardSession = 's:uNn1OiGmFRM5HiaPA0s1_FWiVL8P-IHv.Fbm9ahWsgPJbYmkE8b264awtAoRl8EyhR+r/A6RSOrk';
 
 //var arrowDBObjectList = arrowDBApp.getDBObjects();
 //console.log(arrowDBObjectList);
@@ -70,7 +70,7 @@ arrowDBApp.userCreate({
 			console.log('User login request using REST API method finished: '.cyan + '%j', resultLoginREST.body);
 			console.log('Cookie string returned: %s', resultLoginREST.cookieString);
 			console.log("user id is ", userID);
-			arrowDBApp.dashboardSession = 's:rqlW-yHeGcPKvwfnYMA8p7zNQa1P54Dq.ZSoPWB8wLLTJykBqPLFpXHc3mlD7GwXq15javmXiSBs';
+			arrowDBApp.dashboardSession = 's:uNn1OiGmFRM5HiaPA0s1_FWiVL8P-IHv.Fbm9ahWsgPJbYmkE8b264awtAoRl8EyhR+r/A6RSOrk';
 			arrowDBApp.userDelete({
 				'user_id': userID
 			}, function(err, resultDelete) {
