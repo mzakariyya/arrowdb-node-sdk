@@ -10,8 +10,7 @@ console.log("here ..... 1")
 
 console.log('Creating ArrowDB app instance...'.cyan);
 var arrowDBApp = new ArrowDB(process.env.ARROWDB_APPKEY, {
-	autoSessionManagement: false,
-	baasVersion: 'v2'
+	autoSessionManagement: false
 }); 
 
 console.log('Created: '.cyan + '%j', arrowDBApp);
