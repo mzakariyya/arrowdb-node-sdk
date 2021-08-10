@@ -5,81 +5,39 @@ if (!process.env.ARROWDB_APPKEY) {
 }
 
 var ArrowDB = require('../lib/arrowdb');
-var userID = '';
-console.log("here ..... 1")
 
 console.log('Creating ArrowDB app instance...'.cyan);
-var arrowDBApp = new ArrowDB(process.env.ARROWDB_APPKEY, {
-	autoSessionManagement: false
-}); 
-
+var arrowDBApp = new ArrowDB(process.env.ARROWDB_APPKEY);
 console.log('Created: '.cyan + '%j', arrowDBApp);
 
-arrowDBApp.sessionCookieString = '372de6fe98278b9b807a5ace39e3dc8f';
-arrowDBApp.dashboardSession = 's:uNn1OiGmFRM5HiaPA0s1_FWiVL8P-IHv.Fbm9ahWsgPJbYmkE8b264awtAoRl8EyhR+r/A6RSOrk';
+var arrowDBObjectList = arrowDBApp.getDBObjects();
+console.log('Get all supported objects: arrowDBApp.getDBObjects()'.cyan);
+console.log(arrowDBObjectList);
 
-//var arrowDBObjectList = arrowDBApp.getDBObjects();
-//console.log(arrowDBObjectList);
-
-console.log('User creating...'.cyan);
-arrowDBApp.userCreate({
-		'_login': 'paul2',
-		'_password': 'cocoafish2',
-		'_admin_': true,
-}, function(err, resultCreate) {
+console.log('User logging in...'.cyan);
+arrowDBApp.usersLogin({
+	login: 'paul',
+	password: 'cocoafish'
+}, function(err, result) {
 	if (err) {
 		console.error(err);
 		return;
 	}
-	console.log('User create request finished: '.cyan + '%j', resultCreate.body);
-	console.log('User logging in using SDK method...'.cyan);
-	var obj = JSON.parse(JSON.stringify(resultCreate.body));
-	userID = obj.response.data[0]._id;
-
-	var username = 'paul2';
-	var password = 'cocoafish2';
-	var authNew = 'Basic ' + Buffer.from(username + ':' + password).toString('base64');
-
-	arrowDBApp.userLogin({
-		req: {
-			headers: {
-				Authorization: authNew,
-			}
-		}
-	}, function(err, resultLogin) {
+	console.log('User login request finished: '.cyan + '%j', result.body);
+	console.log('Counting users via generic way arrowDBApp.get() instead of arrowDBApp.usersCount()...'.cyan);
+	arrowDBApp.get('/v1/users/count.json', function(err, result) {
 		if (err) {
 			console.error(err);
 			return;
 		}
-		console.log('User login request using SDK method finished: '.cyan + '%j', resultLogin.body);
-		console.log('User logging in using REST API method: '.cyan);
-		arrowDBApp.get('/v2/user/login', 
-		{
-			req: {
-				headers: {
-					Authorization: authNew,
-				}
-			}
-		}
-		,function(err, resultLoginREST) {
+		console.log('User count finished: '.cyan + '%j', result.body);
+		console.log('Showing current user through stored user session...'.cyan);
+		arrowDBApp.usersShowMe(function(err, result) {
 			if (err) {
 				console.error(err);
 				return;
-			}	
-			console.log('User login request using REST API method finished: '.cyan + '%j', resultLoginREST.body);
-			console.log('Cookie string returned: %s', resultLoginREST.cookieString);
-			console.log("user id is ", userID);
-			arrowDBApp.dashboardSession = 's:uNn1OiGmFRM5HiaPA0s1_FWiVL8P-IHv.Fbm9ahWsgPJbYmkE8b264awtAoRl8EyhR+r/A6RSOrk';
-			arrowDBApp.userDelete({
-				'user_id': userID
-			}, function(err, resultDelete) {
-				if (err) {
-					console.error(err);
-					return;
-				}
-				console.log('User delete request finished: '.cyan + '%j', resultDelete.body);
-			});	
+			}
+			console.log('User showMe request finished: '.cyan + '%j', result.body);
 		});
-	});	
- });
-
+	});
+});
