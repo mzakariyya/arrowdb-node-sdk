@@ -1,8 +1,9 @@
 var assert = require('assert'),
 	testUtil = require('./testUtil');
+	config = require('../config');
 const { format } = require('path');
 
-var arrowDBEntryPoint = (process.env.ARROWDB_ENTRYPOINT ? process.env.ARROWDB_ENTRYPOINT : 'http://localhost:8080');
+var arrowDBEntryPoint = (process.env.ARROWDB_ENTRYPOINT ? process.env.ARROWDB_ENTRYPOINT : config.endpoint.test_api);
 var arrowDBKey = process.env.ARROWDB_APPKEY;
 if (!arrowDBKey) {
 	console.error('Please create an ArrowDB app and assign ARROWDB_APPKEY in environment vars.');
@@ -16,14 +17,7 @@ var ArrowDB = require('../index'),
 		apiEntryPoint: arrowDBEntryPoint,
 		prettyJson: true
 	}),
-	arrowDBAppManualSession = new ArrowDB(arrowDBKey, {
-		apiEntryPoint: arrowDBEntryPoint,
-		prettyJson: true,
-		autoSessionManagement: false
-	}),
 	arrowDBUsername = "paul2",
-	arrowDBUsernameManualSession = null,
-	manualSessionCookieString = null,
 	arrowDBPassword = 'cocoafish2';
 	sessionCookieString = '';
 	userID = '';
@@ -91,16 +85,13 @@ describe('Users Test', function() {
 	describe('.updateUser', function() {
 		it('Should update user successfully with custom_fields as a hash', function(done) {
 			this.timeout(20000);
-
-			arrowDBApp.userUpdate({
-				data: {
-					'$set':{'color':'blue'}
-				},
+			arrowDBApp.put('/v2/user/'+userID, {
+				data: `{"$set":{"color":"blue"}}`,
 			}, function(err, result) {
 				assert.ifError(err);
 				assert(result.body);
 				assert.equal(result.body.status, 200);
-				assert.equal(result.body.method_name, 'PUT /v2/user');
+				assert.equal(result.body.method_name, 'PUT /v2/user/'+userID);
 				done();
 			});
 		});

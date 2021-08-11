@@ -52,7 +52,6 @@ console.log('Created: '.cyan + '%j', arrowDBApp);
         arrowDBApp.userCreate({
             '_login': r,
             '_password': 'cocoafish6',
-            cookieString : sessionCookieString,
         }, function(err, resultCreate) {
             if (err) {
                 console.error(err);
@@ -62,10 +61,8 @@ console.log('Created: '.cyan + '%j', arrowDBApp);
             var obj = JSON.parse(JSON.stringify(resultCreate.body));
             userID = obj.response.data[0]._id;
 
-
             arrowDBApp.userQuery({
                 where: {"_id":userID},
-                cookieString : sessionCookieString,
             }, function(err, resultQuery) {
                 if (err) {
                     console.error(err);
@@ -77,14 +74,12 @@ console.log('Created: '.cyan + '%j', arrowDBApp);
                 arrowDBApp.put('/v2/user/'+userID, 
                 {
                     data: `{"$set":{"color":"blue"}}`,
-                    cookieString : sessionCookieString,
                 },function(err, resultUpdateREST) {
                     if (err) {
                         console.error(err);
                         console.log("user id is ", userID);
                         arrowDBApp.userDelete({
                             'user_id': userID,
-                            cookieString : sessionCookieString,
                         }, function(err, resultDelete) {
                             if (err) {
                                 console.error(err);
