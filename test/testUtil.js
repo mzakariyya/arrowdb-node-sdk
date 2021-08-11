@@ -73,7 +73,7 @@ function processWait(arrowDBInstance, type, id, cb, interval, maxTries, i) {
 function getTestArrowDBApp() {
 	if (!testArrowDBApp) {
 		var arrowDBKey = process.env.ARROWDB_APPKEY;
-		var arrowDBEntryPoint = (process.env.ARROWDB_ENTRYPOINT ? process.env.ARROWDB_ENTRYPOINT : 'http://localhost:8080');
+		var arrowDBEntryPoint = (process.env.ARROWDB_ENTRYPOINT ? process.env.ARROWDB_ENTRYPOINT : 'https://api.cloud.appcelerator.com');
 		if (!arrowDBKey) {
 			console.error('Please create an ArrowDB app and assign ARROWDB_APPKEY in environment vars.');
 			process.exit(1);
