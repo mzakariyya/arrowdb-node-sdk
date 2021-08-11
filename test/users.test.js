@@ -58,32 +58,51 @@ describe('Users Test', function() {
 				done();
 			});
 		});
+
+		it('Should count user corrently', function(done) {
+			this.timeout(20000);
+			arrowDBApp.usersCount(function(err, result) {
+				assert.ifError(err);
+				assert(result.body);
+				assert(result.body.meta);
+				assert.equal(result.body.meta.code, 200);
+				// A bug of https://jira.appcelerator.org/browse/CLOUDSRV-4022
+				// assert.equal(result.body.meta.method_name, 'countUser');
+				assert.equal(result.body.meta.method_name, 'usersCount');
+				assert(result.body.meta.count || (result.body.meta.count === 0));
+				done();
+			});
+		});
 	});
 
 	describe('.createUser', function() {
 		it('Should create user successfully', function(done) {
 			this.timeout(20000);
-			arrowDBApp.userCreate({
-				'_login': arrowDBUsername,
-				'_password': arrowDBPassword,
+			arrowDBApp.usersCreate({
+				username: arrowDBUsername,
+				password: arrowDBPassword,
+				password_confirmation: arrowDBPassword
 			}, function(err, result) {
 				assert.ifError(err);
 				assert(result.body);
-				assert.equal(result.body.status, 201);
-				assert.equal(result.body.method_name, 'POST /v2/user/create');
+				assert(result.body.meta);
+				assert.equal(result.body.meta.code, 200);
+				assert.equal(result.body.meta.method_name, 'createUser');
 				assert(result.body.response);
+				assert(result.body.response.users);
+				assert(result.body.response.users[0]);
+				assert.equal(result.body.response.users[0].username, arrowDBUsername);
 				done();
 			});
 		});
-	
+
 		it('Should query user correctly', function(done) {
 			this.timeout(20000);
-			arrowDBApp.userQuery({
+			arrowDBApp.usersQuery({
 				where: {
-					'_id': arrowDBUsername
+					username: arrowDBUsername
 				}
 			}, function(err, result) {
-				console.log("result 1", result)
 				assert.ifError(err);
 				assert(result.body);
 				assert(result.body.meta);
@@ -97,19 +116,23 @@ describe('Users Test', function() {
 			});
 		});
 	});
-	
+
 	describe('.loginUser', function() {
 		it('Newly created user should be able to login successfully', function(done) {
 			this.timeout(20000);
-			arrowDBApp.userLogin({
+			arrowDBApp.usersLogin({
 				login: arrowDBUsername,
 				password: arrowDBPassword
 			}, function(err, result) {
 				assert.ifError(err);
 				assert(result.body);
-				 assert.equal(result.body.status, 200);
-				assert.equal(result.body.method_name, 'GET /v2/user/login');
+				assert(result.body.meta);
+				assert.equal(result.body.meta.code, 200);
+				assert.equal(result.body.meta.method_name, 'loginUser');
 				assert(result.body.response);
+				assert(result.body.response.users);
+				assert(result.body.response.users[0]);
+				assert.equal(result.body.response.users[0].username, arrowDBUsername);
 				done();
 			});
 		});
@@ -234,10 +257,51 @@ describe('Users Test', function() {
 			});
 		});
 
+		it('Should create a keyvalue successfully', function(done) {
+			this.timeout(20000);
+			arrowDBAppManualSession.keyValuesSet({
+				name: 'foo',
+				value: 'bar'
+			}, function(err, result) {
+				assert.ifError(err);
+				assert(result.body);
+				assert(result.body.meta);
+				assert.equal(result.body.meta.code, 200);
+				assert.equal(result.body.meta.method_name, 'setKeyvalue');
+				done();
+			});
+		});
+
+		it('Should delete a keyvalue successfully', function(done) {
+			this.timeout(20000);
+			arrowDBAppManualSession.keyValuesDelete({
+				name: 'foo'
+			}, function(err, result) {
+				assert.ifError(err);
+				assert(result.body);
+				assert(result.body.meta);
+				assert.equal(result.body.meta.code, 200);
+				assert.equal(result.body.meta.method_name, 'deleteKeyvalue');
+				done();
+			});
+		});
+
 		it('Should nullify session', function(done) {
 			this.timeout(20000);
 			arrowDBAppManualSession.sessionCookieString = null;
 			done();
+		});
+
+		it('Should fail to create a keyvalue', function(done) {
+			this.timeout(20000);
+			arrowDBAppManualSession.keyValuesSet({
+				name: 'foo',
+				value: 'bar'
+			}, function(err) {
+				assert(err);
+				assert.equal(err.statusCode, 400);
+				done();
+			});
 		});
 
 		it('Should delete current user successfully', function(done) {
