@@ -32,7 +32,6 @@ arrowDBApp.userLogin({
     console.log('User login request using SDK method finished: '.cyan + '%j', resultLogin.body);
     console.log('Cookie string returned: %s', resultLogin.cookieString);
 
-    sessionCookieString = resultLogin.cookieString;   
     let r = (Math.random() + 1).toString(36).substring(7);     
     arrowDBApp.userCreate({
         '_login': r,
@@ -62,19 +61,19 @@ arrowDBApp.userLogin({
             },function(err, resultUpdateREST) {
                 if (err) {
                     console.error(err);
-                    console.log("user id is ", userID);
-                    arrowDBApp.userDelete({
-                        'user_id': userID,
-                    }, function(err, resultDelete) {
-                        if (err) {
-                            console.error(err);
-                            return;
-                        }
-                        console.log('User delete request finished: '.cyan + '%j', resultDelete.body);
-                    });	
                     return;
                 }
                 console.log('User update request finished: '.cyan + '%j', resultUpdateREST.body);
+                console.log('User delete request: '.cyan);
+                arrowDBApp.userDelete({
+                    'user_id': userID,
+                }, function(err, resultDelete) {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+                    console.log('User delete request finished: '.cyan + '%j', resultDelete.body);
+                });	
             });	
         });		
     });
